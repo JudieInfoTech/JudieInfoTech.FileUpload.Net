@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>JudieInfoTech.FileUpload.Net.Resources.Service</AssemblyName>
+    <RootNamespace>JudieInfoTech.FileUpload.Net.Resources.Service</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="1.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JudieInfoTech.FileUpload.Net.Entities\JudieInfoTech.FileUpload.Net.Entities.csproj" />
+    <ProjectReference Include="..\JudieInfoTech.FileUpload.Net.Resources\JudieInfoTech.FileUpload.Net.Resources.csproj" />
+  </ItemGroup>
+
+</Project>
