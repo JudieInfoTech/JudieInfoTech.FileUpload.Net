@@ -117,55 +117,55 @@ function editDialog($table, id) {
         var formSelector = '#frmcrud';
         var $form = $(formSelector).get(0);
 
-        $(formSelector).one('submit', function (e) {
-          var formData = $(formSelector + ' :input').serialize();
-          e.preventDefault();
-          $.ajax({
-            cache: false,
-            context: { dialog: dlg, url: $form.action },
-            url: $form.action,
-            type: $form.method,
-            data: formData,
-            complete: function (msg) {
-              $button.enable();
-              $button.stopSpin();
-              sender.setClosable(true);
-            },
-            error: function (result) {
-              // Conflict error
-              if (result.status == 409) {
+        //$(formSelector).one('submit', function (e) {
+        //  var formData = $(formSelector + ' :input').serialize();
+        //  e.preventDefault();
+        //  $.ajax({
+        //    cache: false,
+        //    context: { dialog: dlg, url: $form.action },
+        //    url: $form.action,
+        //    type: $form.method,
+        //    data: formData,
+        //    complete: function (msg) {
+        //      $button.enable();
+        //      $button.stopSpin();
+        //      sender.setClosable(true);
+        //    },
+        //    error: function (result) {
+        //      // Conflict error
+        //      if (result.status == 409) {
 
-                var msg = '';
+        //        var msg = '';
 
-                for (var i = 0; i < result.responseJSON.Errors.length; i++) {
-                  msg = msg + result.responseJSON.Errors[i].Message + '<br>';
-                }
+        //        for (var i = 0; i < result.responseJSON.Errors.length; i++) {
+        //          msg = msg + result.responseJSON.Errors[i].Message + '<br>';
+        //        }
 
-                MsgBox('Multi User Error', msg);
+        //        MsgBox('Multi User Error', msg);
 
-                // refresh dialog content
-                this.dialog.$modalBody.load(this.url);
-              }
-            },
-            success: function (result) {
-              // result can be an object with properties or an Html document
-              if (result.Resource !== undefined) {
-                // update underlying datagrid
-                updateGrid($table, result.Resource);
-              }
+        //        // refresh dialog content
+        //        this.dialog.$modalBody.load(this.url);
+        //      }
+        //    },
+        //    success: function (result) {
+        //      // result can be an object with properties or an Html document
+        //      if (result.Resource !== undefined) {
+        //        // update underlying datagrid
+        //        updateGrid($table, result.Resource);
+        //      }
 
-              // refresh grid and close dialog
-              if (result.Errors !== undefined && result.Errors.length == 0) {
-                // Close dialog
-                sender.close();
-              }
-              else {
-                // render dialog with new html and show validations errors
-                this.dialog.$modalBody.html(result);
-              }
-            }
-          });
-        });
+        //      // refresh grid and close dialog
+        //      if (result.Errors !== undefined && result.Errors.length == 0) {
+        //        // Close dialog
+        //        sender.close();
+        //      }
+        //      else {
+        //        // render dialog with new html and show validations errors
+        //        this.dialog.$modalBody.html(result);
+        //      }
+        //    }
+        //  });
+        //});
         sender.setClosable(false);
         $(formSelector).submit();
       }

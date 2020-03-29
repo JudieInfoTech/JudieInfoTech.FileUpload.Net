@@ -13,13 +13,13 @@ namespace JudieInfoTech.FileUpload.Net.Resources
         public override Int32 Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "File Name must be 2 to 50 chars long")]
         public String ImageFilename { get; set; }
         [Required ]
-        [StringLength(2000)]
+        [StringLength(2000, MinimumLength = 2, ErrorMessage = "Comments must be 2 to 2000 chars long")]
         public String Comments { get; set; }
-
-        [StringLength(250)]
+        [Required]
+        [StringLength(250, MinimumLength = 2, ErrorMessage = "File path must be 2 to 250 chars long")]
         public String ImageFilePath { get; set; }
 
         public IFormFile File { get; set; }
