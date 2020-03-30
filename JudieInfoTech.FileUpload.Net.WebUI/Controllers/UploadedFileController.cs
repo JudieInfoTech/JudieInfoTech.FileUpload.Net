@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using JudieInfoTech.FileUpload.Net.WebUI.Controllers.Models;
 using JudieInfoTech.FileUpload.Net.WebUI.Controllers.Mappings;
+using JudieInfoTech.FileUpload.Net.Azure.Service;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -136,9 +137,9 @@ namespace JudieInfoTech.FileUpload.Net.WebUI.Controllers
                 byte[] fileData = new byte[model.FileToUpload.Length];
 
 
-                //    //BlobStorageService objBlobService = new BlobStorageService();
+                BlobStorageService objBlobService = new BlobStorageService();
 
-                //    //model.ImageFilePath = objBlobService.UploadFileToBlob(model.File.FileName, fileData, mimeType);
+                model.ImageFilePath = objBlobService.UploadFileToBlob(model.FileToUpload.FileName, fileData, mimeType);
 
             }
 
@@ -210,8 +211,10 @@ namespace JudieInfoTech.FileUpload.Net.WebUI.Controllers
 
                     // No need to specify model here, it has no effect on the render process :-(
                     return PartialView();
+                   
                 }
             }
+            
         }
 
 

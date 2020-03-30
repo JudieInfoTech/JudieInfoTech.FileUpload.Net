@@ -168,6 +168,7 @@ function editDialog($table, id) {
         //});
         sender.setClosable(false);
         $(formSelector).submit();
+
       }
     }
     ]
