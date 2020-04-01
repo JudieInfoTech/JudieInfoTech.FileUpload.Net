@@ -123,7 +123,7 @@ namespace JudieInfoTech.FileUpload.Net.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm]UploadedFileModel model)
         {
-            if (ModelState.IsValid)
+            if (model.FileToUpload != null)
             {
                 //var uploads = Path.Combine(env.WebRootPath, "uploads");
                 var uploads = Path.Combine("C:/", "uploads");
@@ -143,7 +143,7 @@ namespace JudieInfoTech.FileUpload.Net.WebUI.Controllers
 
             }
 
-                if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 PartialView();
 
              
