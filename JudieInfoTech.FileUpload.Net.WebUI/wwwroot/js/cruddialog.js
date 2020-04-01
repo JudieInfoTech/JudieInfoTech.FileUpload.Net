@@ -115,57 +115,62 @@ function editDialog($table, id) {
 
         // find first form in dialog
         var formSelector = '#frmcrud';
-        var $form = $(formSelector).get(0);
+          var $form = $(formSelector).get(0);
 
-        //$(formSelector).one('submit', function (e) {
-        //  var formData = $(formSelector + ' :input').serialize();
-        //  e.preventDefault();
-        //  $.ajax({
-        //    cache: false,
-        //    context: { dialog: dlg, url: $form.action },
-        //    url: $form.action,
-        //    type: $form.method,
-        //    data: formData,
-        //    complete: function (msg) {
-        //      $button.enable();
-        //      $button.stopSpin();
-        //      sender.setClosable(true);
-        //    },
-        //    error: function (result) {
-        //      // Conflict error
-        //      if (result.status == 409) {
+          var frmData = $('#frmcrud')[0];         
 
-        //        var msg = '';
+          $(formSelector).one('submit', function (e) {
+          //var formData = $(formSelector + ' :input').serialize();
+            var formData = new FormData(frmData);
+          e.preventDefault();
+          $.ajax({
+            cache: false,
+            context: { dialog: dlg, url: $form.action },
+            url: $form.action,
+            type: $form.method,
+              data: formData,
+              processData: false,  // Important!
+              contentType: false,
+            complete: function (msg) {
+              $button.enable();
+              $button.stopSpin();
+              sender.setClosable(true);
+            },
+            error: function (result) {
+              // Conflict error
+              if (result.status == 409) {
 
-        //        for (var i = 0; i < result.responseJSON.Errors.length; i++) {
-        //          msg = msg + result.responseJSON.Errors[i].Message + '<br>';
-        //        }
+                var msg = '';
 
-        //        MsgBox('Multi User Error', msg);
+                for (var i = 0; i < result.responseJSON.Errors.length; i++) {
+                  msg = msg + result.responseJSON.Errors[i].Message + '<br>';
+                }
 
-        //        // refresh dialog content
-        //        this.dialog.$modalBody.load(this.url);
-        //      }
-        //    },
-        //    success: function (result) {
-        //      // result can be an object with properties or an Html document
-        //      if (result.Resource !== undefined) {
-        //        // update underlying datagrid
-        //        updateGrid($table, result.Resource);
-        //      }
+                MsgBox('Multi User Error', msg);
 
-        //      // refresh grid and close dialog
-        //      if (result.Errors !== undefined && result.Errors.length == 0) {
-        //        // Close dialog
-        //        sender.close();
-        //      }
-        //      else {
-        //        // render dialog with new html and show validations errors
-        //        this.dialog.$modalBody.html(result);
-        //      }
-        //    }
-        //  });
-        //});
+                // refresh dialog content
+                this.dialog.$modalBody.load(this.url);
+              }
+            },
+            success: function (result) {
+              // result can be an object with properties or an Html document
+              if (result.Resource !== undefined) {
+                // update underlying datagrid
+                updateGrid($table, result.Resource);
+              }
+
+              // refresh grid and close dialog
+              if (result.Errors !== undefined && result.Errors.length == 0) {
+                // Close dialog
+                sender.close();
+              }
+              else {
+                // render dialog with new html and show validations errors
+                this.dialog.$modalBody.html(result);
+              }
+            }
+          });
+        });
         sender.setClosable(false);
         $(formSelector).submit();
 
