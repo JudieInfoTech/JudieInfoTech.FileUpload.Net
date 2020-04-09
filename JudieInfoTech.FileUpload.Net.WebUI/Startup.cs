@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Config;
 using System.Net.Http;
+using JudieInfoTech.FileUpload.Net.Azure.Service.AppConfig;
 
 namespace JudieInfoTech.FileUpload.Net.WebUI
 {
@@ -61,7 +62,7 @@ namespace JudieInfoTech.FileUpload.Net.WebUI
       }
 
       app.UseStaticFiles();
-
+      AppConfiguration.SetConfig(Configuration);
       app.UseMvc(routes =>
       {
         routes.MapRoute(

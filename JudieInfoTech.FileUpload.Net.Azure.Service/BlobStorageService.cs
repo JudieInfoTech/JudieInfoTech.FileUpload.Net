@@ -14,8 +14,7 @@ namespace JudieInfoTech.FileUpload.Net.Azure.Service
 
         public BlobStorageService()
         {
-            this.accessKey = "DefaultEndpointsProtocol=https;AccountName=judieinfotech;AccountKey=kwaqZGYU2TfTJd1IVEQGB2623urWSMC959ij7y1dBsD2eU3S7ai2GlbW0lvf8OxeJ8dJyS+NggDqBwkqFIq3pg==;EndpointSuffix=core.windows.net";
-            //this.accessKey = AppConfiguration.GetConfiguration("AccessKey");
+            this.accessKey = AppConfiguration.GetConfiguration("AccessKey");
         }
 
         public string UploadFileToBlob(string strFileName, byte[] fileData, string fileMimeType)
