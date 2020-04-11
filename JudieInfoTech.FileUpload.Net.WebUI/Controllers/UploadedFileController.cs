@@ -123,6 +123,9 @@ namespace JudieInfoTech.FileUpload.Net.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm]UploadedFileModel model)
         {
+            if (!ModelState.IsValid)
+                PartialView();
+
             if (model.FileToUpload != null)
             {
                 //var uploads = Path.Combine(env.WebRootPath, "uploads");
@@ -139,13 +142,11 @@ namespace JudieInfoTech.FileUpload.Net.WebUI.Controllers
 
                 BlobStorageService objBlobService = new BlobStorageService();
 
-                model.ImageFilePath = objBlobService.UploadFileToBlob(model.FileToUpload.FileName, fileData, mimeType);
+                model.ImageFilePath = objBlobService.UploadFileToBlob(model.ImageFilename,model.FileToUpload.FileName, fileData, mimeType);
 
             }
 
-            if (!ModelState.IsValid)
-                PartialView();
-
+             
              
             // Map model to resource
             var resource = mapper.Map<UploadedFileResource>(model);

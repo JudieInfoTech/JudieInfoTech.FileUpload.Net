@@ -17,12 +17,12 @@ namespace JudieInfoTech.FileUpload.Net.Azure.Service
             this.accessKey = AppConfiguration.GetConfiguration("AccessKey");
         }
 
-        public string UploadFileToBlob(string strFileName, byte[] fileData, string fileMimeType)
+        public string UploadFileToBlob(string strImageFilename, string strFileName, byte[] fileData, string fileMimeType)
         {
             try
             {
 
-                var _task = Task.Run(() => this.UploadFileToBlobAsync(strFileName, fileData, fileMimeType));
+                var _task = Task.Run(() => this.UploadFileToBlobAsync(strImageFilename, strFileName, fileData, fileMimeType));
                 _task.Wait();
                 string fileUrl = _task.Result;
                 return fileUrl;
@@ -53,15 +53,16 @@ namespace JudieInfoTech.FileUpload.Net.Azure.Service
         }
 
 
-        private string GenerateFileName(string fileName)
+        private string GenerateFileName(string strImageFilename, string fileName)
         {
             string strFileName = string.Empty;
             string[] strName = fileName.Split('.');
-            strFileName = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd") + "/" + DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff") + "." + strName[strName.Length - 1];
+            //strFileName = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd") + "/" + DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff") + "." + strName[strName.Length - 1];
+            strFileName = strImageFilename  + "." + strName[strName.Length - 1];
             return strFileName;
         }
 
-        private async Task<string> UploadFileToBlobAsync(string strFileName, byte[] fileData, string fileMimeType)
+        private async Task<string> UploadFileToBlobAsync(string strImageFilename, string strFileName, byte[] fileData, string fileMimeType)
         {
             try
             {
@@ -69,7 +70,7 @@ namespace JudieInfoTech.FileUpload.Net.Azure.Service
                 CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
                 string strContainerName = "uploads";
                 CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(strContainerName);
-                string fileName = this.GenerateFileName(strFileName);
+                string fileName = this.GenerateFileName(strImageFilename,strFileName);
 
                 if (await cloudBlobContainer.CreateIfNotExistsAsync())
                 {
