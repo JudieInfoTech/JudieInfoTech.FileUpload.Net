@@ -22,7 +22,7 @@ namespace JudieInfoTech.FileUpload.Net.Entities
         [Required]
         [StringLength(2000)]
         public String Comments { get; set; }
-        
+        [Required]
         [StringLength(250)]
         public String ImageFilePath { get; set; }
 

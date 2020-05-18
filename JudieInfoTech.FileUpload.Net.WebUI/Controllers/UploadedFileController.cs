@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using JudieInfoTech.FileUpload.Net.WebUI.Controllers.Models;
 using JudieInfoTech.FileUpload.Net.WebUI.Controllers.Mappings;
+using JudieInfoTech.FileUpload.Net.Azure.Service;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -122,29 +123,30 @@ namespace JudieInfoTech.FileUpload.Net.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm]UploadedFileModel model)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    //var uploads = Path.Combine(env.WebRootPath, "uploads");
-            //    var uploads = Path.Combine("C:/", "uploads");
-            //    bool exists = Directory.Exists(uploads);
-            //    if (!exists)
-            //        Directory.CreateDirectory(uploads);
-
-            //    var fileName = Path.GetFileName(model.FileToUpload.FileName);
-            //    var fileStream = new FileStream(Path.Combine(uploads, model.FileToUpload.FileName), FileMode.Create);
-            //    string mimeType = model.FileToUpload.ContentType;
-            //    byte[] fileData = new byte[model.FileToUpload.Length];
-
-
-            //    //BlobStorageService objBlobService = new BlobStorageService();
-
-            //    //model.ImageFilePath = objBlobService.UploadFileToBlob(model.File.FileName, fileData, mimeType);
-
-            //}
-
             if (!ModelState.IsValid)
                 PartialView();
 
+            if (model.FileToUpload != null)
+            {
+                //var uploads = Path.Combine(env.WebRootPath, "uploads");
+                var uploads = Path.Combine("C:/", "uploads");
+                bool exists = Directory.Exists(uploads);
+                if (!exists)
+                    Directory.CreateDirectory(uploads);
+
+                var fileName = Path.GetFileName(model.FileToUpload.FileName);
+                var fileStream = new FileStream(Path.Combine(uploads, model.FileToUpload.FileName), FileMode.Create);
+                string mimeType = model.FileToUpload.ContentType;
+                byte[] fileData = new byte[model.FileToUpload.Length];
+
+
+                BlobStorageService objBlobService = new BlobStorageService();
+
+                model.ImageFilePath = objBlobService.UploadFileToBlob(model.ImageFilename,model.FileToUpload.FileName, fileData, mimeType);
+
+            }
+
+             
              
             // Map model to resource
             var resource = mapper.Map<UploadedFileResource>(model);
@@ -210,8 +212,10 @@ namespace JudieInfoTech.FileUpload.Net.WebUI.Controllers
 
                     // No need to specify model here, it has no effect on the render process :-(
                     return PartialView();
+                   
                 }
             }
+            
         }
 
 

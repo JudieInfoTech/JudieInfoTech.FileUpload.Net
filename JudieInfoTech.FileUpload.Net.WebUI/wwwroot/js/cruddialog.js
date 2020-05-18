@@ -115,17 +115,22 @@ function editDialog($table, id) {
 
         // find first form in dialog
         var formSelector = '#frmcrud';
-        var $form = $(formSelector).get(0);
+          var $form = $(formSelector).get(0);
 
-        $(formSelector).one('submit', function (e) {
-          var formData = $(formSelector + ' :input').serialize();
+          var frmData = $('#frmcrud')[0];         
+
+          $(formSelector).one('submit', function (e) {
+          //var formData = $(formSelector + ' :input').serialize();
+            var formData = new FormData(frmData);
           e.preventDefault();
           $.ajax({
             cache: false,
             context: { dialog: dlg, url: $form.action },
             url: $form.action,
             type: $form.method,
-            data: formData,
+              data: formData,
+              processData: false,  // Important!
+              contentType: false,
             complete: function (msg) {
               $button.enable();
               $button.stopSpin();
@@ -168,6 +173,7 @@ function editDialog($table, id) {
         });
         sender.setClosable(false);
         $(formSelector).submit();
+
       }
     }
     ]
